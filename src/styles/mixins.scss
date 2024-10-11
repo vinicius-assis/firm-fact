@@ -1,0 +1,48 @@
+@use "sass:math";
+@import "./variables";
+
+@mixin transition($properties...) {
+  transition: $properties $transition-time ease-in-out;
+}
+
+@mixin fluid-font-size($min_font_size, $max_font_size) {
+  font-size: clamp(
+    $min_font_size,
+    get-fluid-size($min_font_size, $max_font_size, $xs-screen, $xl-screen),
+    $max_font_size
+  );
+}
+
+@function get-fluid-size(
+  $min_font_size,
+  $max_font_size,
+  $min_viewport,
+  $max_viewport
+) {
+  $min_font_size_in_rem: #{math.div(strip-unit($min_font_size), 16)}rem;
+  $font_size_diff: strip-unit($max_font_size) - strip-unit($min_font_size);
+  $viewport_diff: strip-unit($max_viewport) - strip-unit($min_viewport);
+
+  $fluid_size: calc(
+    $min_font_size_in_rem + $font_size_diff *
+      ((100vw - $min_viewport) / ($viewport_diff))
+  );
+
+  @return $fluid-size;
+}
+
+@function strip-unit($number) {
+  @if type-of($number) == "number" and not unitless($number) {
+    @return math.div($number, ($number * 0) + 1);
+  }
+
+  @return $number;
+}
+
+$fluid-sizes: ("h1" 60px 32px, "p" 19px 14px);
+
+@each $name, $max, $min in $fluid-sizes {
+  .fluid-text-#{$name} {
+    @include fluid-font-size($min, $max);
+  }
+}
