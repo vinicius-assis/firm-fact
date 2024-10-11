@@ -1,0 +1,8 @@
+@import "./variables";
+
+.container {
+  width: 100%;
+  max-width: $xl-screen;
+  min-width: $xs-screen;
+  margin: 0 auto;
+}
