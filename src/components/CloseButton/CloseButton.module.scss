@@ -1,0 +1,30 @@
+@import "../../styles/variables";
+
+.closeButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  background-color: $primary;
+  margin-left: auto;
+  margin-bottom: 30px;
+
+  &::after,
+  &::before {
+    display: block;
+    position: absolute;
+    content: "";
+    width: 44px;
+    height: 2px;
+    background-color: #fff;
+  }
+
+  &::after {
+    transform: rotate(45deg);
+  }
+  &::before {
+    transform: rotate(-45deg);
+  }
+}
